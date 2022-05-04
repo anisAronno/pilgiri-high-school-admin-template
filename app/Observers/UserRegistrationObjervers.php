@@ -29,11 +29,11 @@ class UserRegistrationObjervers
                 'otp' => $randomNumber,
             ]
         );
-        if($result){
-            dispatch(new UserRegistrationJobs($user));
-        }
+        // if($result){
+        //     dispatch(new UserRegistrationJobs($user));
+        // }
 
-        dispatch(new RegistrationVerificationJobs($user, $result->otp));
+        // dispatch(new RegistrationVerificationJobs($user, $result->otp));
     }
 
     /**

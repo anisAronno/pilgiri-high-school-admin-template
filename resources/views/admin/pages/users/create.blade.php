@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="right">
                                     <a class="btn btn-primary btn-learge" href="{{ route('admin.user.index') }}"><i
-                                            data-feather='eye'></i> View Admin</a>
+                                            data-feather='eye'></i> View User</a>
                                     <a class="btn btn-dark btn-learge" href="{{ route('admin.user.create') }}"><i
                                             data-feather='plus'></i> Create New</a>
                                 </div>
@@ -66,8 +66,8 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="login-username">Admin Name</label>
-                                <input required id="username" placeholder="Admin Name" type="username"
+                                <label class="form-label" for="login-username">User Name</label>
+                                <input required id="username" placeholder="User Name" type="text"
                                     class="form-control @error('username') is-invalid @enderror" name="username"
                                     value="{{ old('username') }}" autocomplete="username" autofocus>
 
@@ -96,6 +96,66 @@
                                     value="{{ old('email') }}" autocomplete="email" autofocus>
 
                                 @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="ssc">Passing Year</label>
+                                <input required id="ssc" placeholder="Passing Year" type="number"
+                                    class="form-control @error('ssc') is-invalid @enderror" name="ssc"
+                                    value="{{ old('ssc') }}" autocomplete="ssc" autofocus>
+
+                                @error('ssc')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="guest">Guest Number</label>
+                                <input required id="guest" placeholder="Passing Year" type="number"
+                                    class="form-control @error('guest') is-invalid @enderror" name="guest"
+                                    value="{{ old('guest') }}" autocomplete="guest" autofocus>
+
+                                @error('guest')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="own_fee">Own Fee</label>
+                                <input required id="own_fee" placeholder="Own Fee" type="number"
+                                    class="form-control @error('own_fee') is-invalid @enderror" name="own_fee"
+                                    value="{{ old('own_fee') }}" autocomplete="own_fee" autofocus>
+
+                                @error('own_fee')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="guest_fee">Guest Fee</label>
+                                <input required id="guest_fee" placeholder="Guest Fee" type="number"
+                                    class="form-control @error('guest_fee') is-invalid @enderror" name="guest_fee"
+                                    value="{{ old('guest_fee') }}" autocomplete="guest_fee" autofocus>
+
+                                @error('guest_fee')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="guest_fee">Total Fee</label>
+                                <input required id="total_fee" placeholder="Total Fee" type="number"
+                                    class="form-control @error('total_fee') is-invalid @enderror" name="total_fee"
+                                    value="{{ old('total_fee') }}" autocomplete="total_fee" autofocus>
+
+                                @error('total_fee')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

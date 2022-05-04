@@ -94,6 +94,11 @@
                                     <th style="width: 10%">username</th>
                                     <th style="width: 10%">Email</th>
                                     <th style="width: 10%">Phone</th>
+                                    <th style="width: 10%">Passing Year</th>
+                                    <th style="width: 10%">Guest</th>
+                                    <th style="width: 10%">own fee</th>
+                                    <th style="width: 10%">Guest Fee</th>
+                                    <th style="width: 10%">Total Fee</th>
                                     <th style="width: 10%">Status</th>
                                 </tr>
                                 </thead>
@@ -113,6 +118,11 @@
                                         <td>{{ $user->username }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->phone }}</td>
+                                        <td>{{ $user->ssc }}</td>
+                                        <td>{{ $user->guest }}</td>
+                                        <td>{{ $user->own_fee }}</td>
+                                        <td>{{ $user->guest_fee }}</td>
+                                        <td>{{ $user->total_fee }}</td>
                                         <td>
                                             @php
 

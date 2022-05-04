@@ -58,6 +58,31 @@
                                             <td>{{ $user->phone }}</td>
                                         </tr>
                                         <tr>
+                                        	<td>Passing Year (SSC)</td>
+                                            <td>:</td>
+                                            <td>{{ $user->ssc }}</td>
+                                        </tr>
+                                        <tr>
+                                        	<td>Guest</td>
+                                            <td>:</td>
+                                            <td>{{ $user->guest }}</td>
+                                        </tr>
+                                        <tr>
+                                        	<td>Own Fee</td>
+                                            <td>:</td>
+                                            <td>{{ $user->own_fee }}</td>
+                                        </tr>
+                                        <tr>
+                                        	<td>Guest Fee</td>
+                                            <td>:</td>
+                                            <td>{{ $user->guest_fee }}</td>
+                                        </tr>
+                                        <tr>
+                                        	<td>Total Fee</td>
+                                            <td>:</td>
+                                            <td>{{ $user->total_fee }}</td>
+                                        </tr>
+                                        <tr>
                                         	<td>Status</td>
                                             <td>:</td>
                                             <td>

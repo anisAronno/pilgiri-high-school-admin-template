@@ -22,7 +22,6 @@ class UserController extends BaseController
             'users' => User::all(),
             'enumStatuses' => $this->enumStatuses,
         ]);
-
     }
     public function create()
     {
@@ -30,13 +29,12 @@ class UserController extends BaseController
             abort(403, 'Sorry !! You are Unauthorized to create any User !');
         }
 
-            return view('admin.pages.users.create', [
+        return view('admin.pages.users.create', [
                 'prefixname' => 'User',
                 'title' => 'User Create',
                 'page_title' => 'User Create',
                 'enumStatuses' => $this->enumStatuses,
             ]);
-
     }
     public function show(User $user)
     {
@@ -44,14 +42,13 @@ class UserController extends BaseController
             abort(403, 'Sorry !! You are Unauthorized to view any User !');
         }
 
-            return view('admin.pages.users.details', [
+        return view('admin.pages.users.details', [
                 'prefixname' => 'User',
                 'title' => 'User Create',
                 'page_title' => 'User Create',
                 'user' => $user,
                 'enumStatuses' => $this->enumStatuses,
             ]);
-
     }
 
 
@@ -60,8 +57,9 @@ class UserController extends BaseController
     {
         if (is_null($this->user) || !$this->user->can('user.create')) {
             abort(403, 'Sorry !! You are Unauthorized to store any User !');
-        }
-        $user = $user->create($request->only('name','username','email','phone', 'status'));
+        } 
+        $user = $user->create($request->only('name', 'username', 'email', 'phone', 'status', 'ssc', 'guest', 'guest_fee', 'own_fee', 'total_fee'));
+
         if ($user) {
             return redirect()->route('admin.user.index')->with('success', 'Data Added successfully Done');
         }
@@ -73,14 +71,13 @@ class UserController extends BaseController
         if (is_null($this->user) || !$this->user->can('user.edit')) {
             abort(403, 'Sorry !! You are Unauthorized to edit any User !');
         }
-            return view('admin.pages.users.edit', [
+        return view('admin.pages.users.edit', [
                 'prefixname' => 'User',
                 'title' => 'User Create',
                 'page_title' => 'User Create',
                 'user' => $user,
                 'enumStatuses' => $this->enumStatuses,
             ]);
-
     }
 
     public function update(UserUpdateRequest $request, User $user)
@@ -88,13 +85,12 @@ class UserController extends BaseController
         if (is_null($this->user) || !$this->user->can('user.edit')) {
             abort(403, 'Sorry !! You are Unauthorized to update any User !');
         }
-            $user->update($request->only('name','username','email','phone', 'status'));
-            if($user) {
-                return redirect()->route('admin.user.index')->with('success', 'Data Added successfully Done');
-            } else {
-                return redirect()->back()->withInput()->with('error', 'Data Added Failed');
-            }
-
+        $user->update($request->only('name', 'username', 'email', 'phone', 'status', 'ssc', 'guest', 'guest_fee', 'own_fee', 'total_fee'));
+        if ($user) {
+            return redirect()->route('admin.user.index')->with('success', 'Data Added successfully Done');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Data Added Failed');
+        }
     }
     public function destroy(User $user)
     {
@@ -108,6 +104,5 @@ class UserController extends BaseController
         } else {
             return redirect()->back();
         }
-
     }
 }
