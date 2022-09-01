@@ -24,7 +24,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'phone' => 'required|max:15|min:10',
+            'phone' => 'required|max:15|min:10|exists:users,phone',
             'password' => 'required',
         ];
     }
@@ -34,7 +34,8 @@ class LoginRequest extends FormRequest
             'password.required' => 'The :attribute field can not be blank value',
             'phone.required' => 'The :attribute field can not be blank value',
             'phone.max' => 'The :attribute number maximum 15 character',
-            'phone.min' => 'The :attribute number minimum 10 character',  
+            'phone.min' => 'The :attribute number minimum 10 character', 
+            'phone.exists' => 'User not found',
         ];
     }
 }

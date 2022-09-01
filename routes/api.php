@@ -15,15 +15,15 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('\App\Http\Controllers\Api\V1')->group(function () {
     Route::prefix('v1')->group(function () {
-        route::apiResource('user', 'UserController')->except('update');
-
-        Route::post('login', 'Auth\LoginController@login')->name('user.login');
-        Route::post('registration', 'Auth\LoginController@registration')->name('user.registration');
-
+        Route::post('signin', 'Auth\AuthController@login');
+        Route::post('signup', 'Auth\AuthController@signin');
         Route::prefix('user')->middleware('auth:api')->group(function () {
-            Route::post('profile/{id}', 'Auth\LoginController@getLoggedUserDetails')->name('client.profile');
-            Route::post('logout', 'Auth\LoginController@logout')->name('user.logout');
-            route::post('update/{user}', 'UserController@update');
+            Route::get('profile', 'Auth\AuthController@profile');
+            Route::post('logout', 'Auth\AuthController@logout');
+            Route::put('update/{user}', 'Auth\AuthController@update');
+            Route::put('password-update/{user}', 'Auth\AuthController@passwordUpdate');
+            Route::get('registration/{user}', 'RegistrationController@index');
+            Route::post('registration/{user}', 'RegistrationController@store');
         });
     });
 });
