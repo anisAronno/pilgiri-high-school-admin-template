@@ -8,6 +8,7 @@ use App\Http\Requests\LogoutRequest;
 use App\Http\Requests\PasswordUpdateRequest;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,7 +21,7 @@ class AuthController extends BaseController
         try {
             $user= $user->create($request->only('name', 'email', 'password', 'phone'));
             $data['token'] =  $user->createToken('pkhsaa')-> accessToken;
-            $data['user'] =  $user;
+            $data['user'] =  new UserResource($user);
             return $this->successResponse($data, 'Registration Successfull', Response::HTTP_CREATED);
         } catch (\Throwable $th) {
             return $this->errorResponse('error', $th->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
@@ -31,15 +32,15 @@ class AuthController extends BaseController
     public function login(LoginRequest $request)
     {
         $credentials = $request->only('phone', 'password');
-
+        
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $data['token'] =  $user->createToken('pkhsaa')-> accessToken;
-            $data['user'] =  $user;
-            return $this->successResponse($data, 'Login Successfull', Response::HTTP_CREATED);
+            $data['user'] =  new UserResource($user);
+            return $this->successResponse($data, 'Login Successfull', Response::HTTP_OK);
         }
 
-        return $this->errorResponse('error', 'Wrong password', Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->errorResponse('error', 'Wrong password', Response::HTTP_UNAUTHORIZED);
     }
 
 
@@ -48,7 +49,7 @@ class AuthController extends BaseController
         $result= $request->user()->token()->revoke();
 
         if (!$result) {
-            return $this->errorResponse('error', 'User not found', Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->errorResponse('error', 'User not found', Response::HTTP_UNAUTHORIZED);
         }
         return response()->json(['success' => true, 'message' => 'Logout successfully']);
     }
@@ -57,9 +58,11 @@ class AuthController extends BaseController
     {
         $user = Auth::user();
         if (!$user) {
-            return $this->errorResponse('error', 'user not found', Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->errorResponse('error', 'User not found', Response::HTTP_UNAUTHORIZED);
         }
-        return $this->successResponse($user, 'User Updated', Response::HTTP_OK);
+        return (new UserResource($user))->additional([
+            'message' => 'User profile'
+         ]);
     }
 
     /**
@@ -73,9 +76,11 @@ class AuthController extends BaseController
     {
         try {
             $user->update($request->only('name', 'email', 'phone'));
-            return $this->successResponse($user, 'User Updated', Response::HTTP_CREATED);
+            return (new UserResource($user))->additional([
+                'message' => 'Profile updated successfully '
+             ]);
         } catch (\Throwable $th) {
-            return $this->errorResponse('error', $th->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->errorResponse('error', $th->getMessage(), Response::HTTP_UNAUTHORIZED);
         }
     }
 
@@ -91,12 +96,12 @@ class AuthController extends BaseController
         try {
             if (Hash::check($request->Input('oldPassword'), $user->password)) {
                 $user->update($request->only('password'));
-                return $this->successResponse($user, 'User Updated', Response::HTTP_CREATED);
+                return $this->successResponse($user, 'User Updated', Response::HTTP_OK);
             } else {
-                return $this->errorResponse('error', 'Old password is wrong', Response::HTTP_UNPROCESSABLE_ENTITY);
+                return $this->errorResponse('error', 'Old password is wrong', Response::HTTP_UNAUTHORIZED);
             }
         } catch (\Throwable $th) {
-            return $this->errorResponse('error', $th->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+            return $this->errorResponse('error', $th->getMessage(), Response::HTTP_UNAUTHORIZED);
         }
     }
 }

@@ -13,7 +13,7 @@ class UpdateRegistrationRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,9 +22,9 @@ class UpdateRegistrationRequest extends FormRequest
      * @return array
      */
     public function rules()
-    {
-        return [
-            //
+    { 
+        return [ 
+            'email' => 'nullable|max:50|min:4|email|unique:registrations,email,'.$this->registration->id.',id',
         ];
     }
 }

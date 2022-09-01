@@ -3,14 +3,11 @@
  namespace App\Http\Controllers\Api\V1;
 
  use App\Http\Requests\StoreRegistrationRequest;
-
  use App\Http\Requests\UpdateRegistrationRequest;
-
  use App\Models\Registration;
-
  use App\Http\Controllers\BaseController;
-
- use App\Models\User;
+ use App\Http\Resources\RegistrationResource;
+ use Symfony\Component\HttpFoundation\Response;
 
  class RegistrationController extends BaseController
  {
@@ -19,12 +16,15 @@
       *
       * @return \Illuminate\Http\Response
       */
-     public function index(Registration $registration, User $user)
+     public function index()
      {
-         return $user->registrations;
+         try {
+             return $result = auth()->user()->with('registrations')->get();
+             return $this->successResponse(new RegistrationResource($result), 'All Registration data of this user ', Response::HTTP_OK);
+         } catch (\Throwable $th) {
+             return $this->errorResponse('error', $th->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+         }
      }
-
-
 
      /**
       * Store a newly created resource in storage.
@@ -32,9 +32,14 @@
       * @param  \App\Http\Requests\StoreRegistrationRequest  $request
       * @return \Illuminate\Http\Response
       */
-     public function store(StoreRegistrationRequest $request, User $user)
+     public function store(StoreRegistrationRequest $request)
      {
-         return $user->registrations;
+         try {
+             $result = auth()->user()->registrations()->create($request->all());
+             return $this->successResponse(new RegistrationResource($result), 'Registration completed successfully', Response::HTTP_CREATED);
+         } catch (\Throwable $th) {
+             return $this->errorResponse('error', $th->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+         }
      }
 
      /**
@@ -45,7 +50,16 @@
       */
      public function show(Registration $registration)
      {
-        //
+        $reg =  auth()
+        ->user()
+        ->registrations()
+        ->where('id', $registration->id)
+        ->firstOrFail();
+         try {
+             return $this->successResponse(new RegistrationResource($reg), "User's registered data", Response::HTTP_OK);
+         } catch (\Throwable $th) {
+             return $this->errorResponse('error', $th->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+         }
      }
 
 
@@ -58,7 +72,17 @@
       */
      public function update(UpdateRegistrationRequest $request, Registration $registration)
      {
-        //
+         $reg =  auth()
+         ->user()
+         ->registrations()
+         ->where('id', $registration->id)
+         ->firstOrFail();
+
+         $reg->update($request->all());
+
+         return (new RegistrationResource($reg))->additional([
+            'message' => 'Registration updated successfully '
+         ]);
      }
 
      /**
@@ -69,6 +93,16 @@
       */
      public function destroy(Registration $registration)
      {
-        //
+        $reg =  auth()
+        ->user()
+        ->registrations()
+        ->where('id', $registration->id)
+        ->firstOrFail();
+
+         try {
+             return $this->successResponse($reg->delete(), 'Registration Deleted Successfully ', Response::HTTP_OK);
+         } catch (\Throwable $th) {
+             return $this->errorResponse('error', $th->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+         }
      }
  }

@@ -15,15 +15,14 @@ class CreateRegistrationsTable extends Migration
     {
         Schema::create('registrations', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email')->nullable();
             $table->string("picture")->nullable();
             $table->string("fathers_name")->nullable();
             $table->string("mothers_name")->nullable();
             $table->string("spouse_name")->nullable();
             $table->string("blood_group")->nullable();
             $table->date("birth_date")->nullable();
-            $table->string("nationality")->nullable();
+            $table->string("nationality")->default('Bangladeshi');
             $table->string("nid")->nullable();
             $table->integer("ssc")->nullable();
             $table->string("last_educational_qualification")->nullable();

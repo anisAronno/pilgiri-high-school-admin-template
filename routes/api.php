@@ -22,8 +22,11 @@ Route::namespace('\App\Http\Controllers\Api\V1')->group(function () {
             Route::post('logout', 'Auth\AuthController@logout');
             Route::put('update/{user}', 'Auth\AuthController@update');
             Route::put('password-update/{user}', 'Auth\AuthController@passwordUpdate');
-            Route::get('registration/{user}', 'RegistrationController@index');
-            Route::post('registration/{user}', 'RegistrationController@store');
+            Route::get('registration', 'RegistrationController@index');
+            Route::post('registration', 'RegistrationController@store');
+            Route::get('registration/{registration}', 'RegistrationController@show');
+            Route::put('registration/{registration}', 'RegistrationController@update');
+            Route::delete('registration/{registration}', 'RegistrationController@destroy');
         });
     });
 });

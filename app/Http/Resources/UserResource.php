@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Resources\VehicleType;
+namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class VehicleTypeResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,9 +15,10 @@ class VehicleTypeResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'name'=> $this->name,
-            'company_id'=> $this->company_id,
-            'status'=> $this->status,
-            ];
+            'name' => $this->name,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'created_at' => $this->created_at->diffForHumans(),
+        ];
     }
 }

@@ -24,7 +24,7 @@ class StoreRegistrationRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'email' => 'nullable|min:4|email|unique:registrations,email',
         ];
     }
 }
