@@ -22,7 +22,7 @@ class SettingsTableSeeder extends Seeder
         $setting = new Setting();
         $setting->site_name = "Website Name";
         $setting->site_title = "Website Title";
-        $setting->logo = "default_image/logo.png";
+        $setting->logo = "default_image/logo.jpeg";
         $setting->default_image = "default_image/default.jpeg";
         $setting->copyright_message = "© 2020 All rights reserved";
         $setting->copyright_name = "PIXINVENT";
