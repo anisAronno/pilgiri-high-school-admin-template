@@ -23,10 +23,18 @@ class LoginRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = [
-            'otp' => 'required',
+        return [
+            'phone' => 'required|max:15|min:10',
+            'password' => 'required',
         ];
-
-        return $rules;
+    }
+    public function messages()
+    {
+        return [
+            'password.required' => 'The :attribute field can not be blank value',
+            'phone.required' => 'The :attribute field can not be blank value',
+            'phone.max' => 'The :attribute number maximum 15 character',
+            'phone.min' => 'The :attribute number minimum 10 character',  
+        ];
     }
 }

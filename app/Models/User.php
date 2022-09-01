@@ -12,7 +12,11 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, HasApiTokens, SoftDeletes;
+    use HasFactory;
+    use Notifiable;
+    use HasRoles;
+    use HasApiTokens;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -39,4 +43,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password']=bcrypt($password);
+    }
 }

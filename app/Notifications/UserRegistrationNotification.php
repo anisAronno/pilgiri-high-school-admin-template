@@ -42,9 +42,9 @@ class UserRegistrationNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
         ->line('New User Registered')
-        ->line('User Name: '. $this->user->name)
+        ->line('User Phone: '. $this->user->phone)
         ->line('User id: '. $this->user->id)
         ->line('Thanks For Choose us');
     }
@@ -59,7 +59,7 @@ class UserRegistrationNotification extends Notification
     {
         return [
             'user_id' => $this->user->id,
-            'message' =>  "Registered new user ( ".$this->user->name ." ).",
+            'message' =>  "Registered new user ( ".$this->user->phone ." ).",
         ];
     }
 }

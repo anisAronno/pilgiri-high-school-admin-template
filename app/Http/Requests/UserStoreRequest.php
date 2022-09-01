@@ -24,10 +24,10 @@ class UserStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:3',
             'phone' => 'required|max:15|min:10|unique:users,phone,'.$this->id.',id',
-            'username' => 'required|alpha_dash|max:50|min:4|unique:users,username,'.$this->id.',id',
-            'email' => 'required|max:50|min:4|email|unique:users,email,'.$this->id.',id',
+            'name' => 'nullable',
+            'password' => 'required|alpha_dash|max:50|min:4',
+            'password_confirmation'=> 'required|same:password'
         ];
     }
 }
